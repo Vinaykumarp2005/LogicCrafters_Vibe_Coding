@@ -1,0 +1,18 @@
+Deep Learning Architectures and Training
+
+Deep learning has transformed artificial intelligence by enabling models to learn hierarchical representations of data. The key architectures include:
+
+1. Convolutional Neural Networks (CNNs): Used primarily for image and video recognition. They use convolutional layers that apply filters to detect features like edges, textures, and shapes. Popular architectures include VGG, ResNet, and EfficientNet.
+
+2. Transformers: The transformer architecture, introduced in "Attention Is All You Need," uses self-attention mechanisms to process sequences in parallel. This has led to breakthroughs in NLP (BERT, GPT) and computer vision (Vision Transformers).
+
+3. Generative Adversarial Networks (GANs): Consist of a generator and discriminator that compete, producing realistic synthetic data. Applications include image synthesis, style transfer, and data augmentation.
+
+Training deep learning models requires careful consideration of:
+- Loss functions (cross-entropy, MSE, contrastive loss)
+- Optimizers (SGD, Adam, AdamW)
+- Regularization (dropout, weight decay, batch normalization)
+- Learning rate scheduling (cosine annealing, warm-up)
+- Data augmentation strategies
+
+Hardware acceleration through GPUs and TPUs is essential for training large models efficiently.

@@ -1,0 +1,19 @@
+Introduction to Web Development
+
+Web development encompasses the creation and maintenance of websites and web applications. It is broadly divided into front-end and back-end development.
+
+Front-End Development:
+HTML (HyperText Markup Language) structures web content. CSS (Cascading Style Sheets) controls presentation and layout. JavaScript adds interactivity and dynamic behavior. Modern front-end development relies heavily on frameworks and libraries like React, Vue.js, and Angular.
+
+Back-End Development:
+Server-side programming handles business logic, database interactions, authentication, and API design. Popular back-end languages include Python (Django, Flask), JavaScript (Node.js, Express), Java (Spring Boot), and Go.
+
+RESTful APIs provide a standardised way for front-end and back-end to communicate. GraphQL offers a more flexible alternative for querying data. WebSockets enable real-time bidirectional communication.
+
+Modern web development practices include:
+- Responsive design for mobile compatibility
+- Progressive Web Apps (PWAs) for offline support
+- Single Page Applications (SPAs)
+- Server-Side Rendering (SSR) for SEO
+- Containerization with Docker for deployment
+- CI/CD pipelines for automated testing and deployment

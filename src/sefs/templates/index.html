@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEFS - Semantic Entropy File System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="header-left">
+            <div class="logo">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="14" r="12" stroke="#6C63FF" stroke-width="2" fill="none"/>
+                    <circle cx="10" cy="11" r="3" fill="#6C63FF" opacity="0.8"/>
+                    <circle cx="18" cy="11" r="2.5" fill="#00D1B2" opacity="0.8"/>
+                    <circle cx="14" cy="19" r="2" fill="#FF6B6B" opacity="0.8"/>
+                    <line x1="10" y1="11" x2="18" y2="11" stroke="#6C63FF" stroke-width="0.8" opacity="0.3"/>
+                    <line x1="10" y1="11" x2="14" y2="19" stroke="#FF6B6B" stroke-width="0.8" opacity="0.3"/>
+                    <line x1="18" y1="11" x2="14" y2="19" stroke="#00D1B2" stroke-width="0.8" opacity="0.3"/>
+                </svg>
+                <h1>SEFS</h1>
+                <span class="subtitle">Semantic Entropy File System</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <div id="status-bar">
+                <span id="status-indicator" class="status-dot idle"></span>
+                <span id="status-text">Initializing...</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="file-count">0</span>
+                    <span class="stat-label">Files</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="cluster-count">0</span>
+                    <span class="stat-label">Clusters</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="folder-count">0</span>
+                    <span class="stat-label">Folders</span>
+                </div>
+            </div>
+            <div class="actions">
+                <button id="btn-rescan" class="btn btn-primary" title="Rescan files">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M13.65 2.35A8 8 0 1 0 16 8h-2a6 6 0 1 1-1.76-4.24L10 6h6V0l-2.35 2.35z"/>
+                    </svg>
+                    Rescan
+                </button>
+                <button id="btn-reset" class="btn btn-danger" title="Reset folder structure">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 10.09l-1.41 1.41L8 9.41 5.91 11.5 4.5 10.09 6.59 8 4.5 5.91 5.91 4.5 8 6.59l2.09-2.09 1.41 1.41L9.41 8l2.09 2.09z"/>
+                    </svg>
+                    Reset
+                </button>
+                <button id="btn-open-folder" class="btn btn-secondary" title="Open root folder">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M6.5 1H1.5A1.5 1.5 0 0 0 0 2.5v11A1.5 1.5 0 0 0 1.5 15h13A1.5 1.5 0 0 0 16 13.5V4.5A1.5 1.5 0 0 0 14.5 3H8l-1.5-2z"/>
+                    </svg>
+                    Open Folder
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Sidebar: Folder tree -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <h2>Semantic Folders</h2>
+            </div>
+            <div id="folder-tree" class="folder-tree">
+                <div class="empty-state">
+                    <p>No semantic folders yet.</p>
+                    <p class="hint">Add files to the monitored folder to begin.</p>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div id="last-sync">Last sync: never</div>
+            </div>
+        </aside>
+
+        <!-- Graph Canvas -->
+        <section id="graph-container">
+            <div id="graph-canvas"></div>
+            <div id="graph-controls">
+                <button id="btn-zoom-in" class="graph-btn" title="Zoom In">+</button>
+                <button id="btn-zoom-out" class="graph-btn" title="Zoom Out">−</button>
+                <button id="btn-zoom-reset" class="graph-btn" title="Reset View">⌂</button>
+                <button id="btn-toggle-labels" class="graph-btn active" title="Toggle Labels">T</button>
+                <button id="btn-toggle-edges" class="graph-btn active" title="Toggle Edges">E</button>
+            </div>
+
+            <!-- Empty state for graph -->
+            <div id="graph-empty" class="graph-empty-state">
+                <div class="empty-icon">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                        <circle cx="25" cy="30" r="8" stroke="#6C63FF" stroke-width="2" fill="none" opacity="0.5"/>
+                        <circle cx="55" cy="25" r="6" stroke="#00D1B2" stroke-width="2" fill="none" opacity="0.5"/>
+                        <circle cx="40" cy="55" r="7" stroke="#FF6B6B" stroke-width="2" fill="none" opacity="0.5"/>
+                        <line x1="25" y1="30" x2="55" y2="25" stroke="#444" stroke-width="1" opacity="0.3" stroke-dasharray="4"/>
+                        <line x1="25" y1="30" x2="40" y2="55" stroke="#444" stroke-width="1" opacity="0.3" stroke-dasharray="4"/>
+                        <line x1="55" y1="25" x2="40" y2="55" stroke="#444" stroke-width="1" opacity="0.3" stroke-dasharray="4"/>
+                    </svg>
+                </div>
+                <h3>No files to visualize</h3>
+                <p>Add PDF or text files to the monitored root folder.<br>
+                   The system will automatically organize them into semantic clusters.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip">
+        <div class="tooltip-header">
+            <span id="tooltip-icon" class="tooltip-ext-icon"></span>
+            <span id="tooltip-name" class="tooltip-file-name"></span>
+        </div>
+        <div class="tooltip-body">
+            <div class="tooltip-row"><span class="tooltip-key">Cluster:</span> <span id="tooltip-cluster"></span></div>
+            <div class="tooltip-row"><span class="tooltip-key">Size:</span> <span id="tooltip-size"></span></div>
+            <div class="tooltip-row"><span class="tooltip-key">Modified:</span> <span id="tooltip-modified"></span></div>
+            <div class="tooltip-row"><span class="tooltip-key">Type:</span> <span id="tooltip-ext"></span></div>
+        </div>
+        <div class="tooltip-footer">Click to open file</div>
+    </div>
+
+    <!-- Event Toast -->
+    <div id="toast-container"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

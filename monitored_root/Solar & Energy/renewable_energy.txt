@@ -1,0 +1,20 @@
+Renewable Energy Technologies
+
+Renewable energy comes from naturally replenishing sources that are virtually inexhaustible. The main types include:
+
+Solar Energy:
+Photovoltaic (PV) cells convert sunlight directly into electricity. Solar thermal systems use concentrated sunlight to generate heat. Solar panel efficiency has improved dramatically, with modern panels achieving over 22% efficiency. Grid-scale solar farms and rooftop installations are both growing rapidly.
+
+Wind Energy:
+Wind turbines convert kinetic energy from wind into electricity. Onshore wind farms are one of the cheapest sources of electricity. Offshore wind farms, while more expensive to install, benefit from stronger and more consistent winds.
+
+Hydroelectric Power:
+Dams and run-of-river systems harness the energy of flowing water. Pumped-storage hydroelectricity serves as large-scale energy storage. Small-scale hydropower is important for rural electrification.
+
+Other Technologies:
+- Geothermal energy uses heat from within the Earth
+- Biomass energy converts organic materials into fuel
+- Hydrogen fuel cells offer zero-emission transportation
+- Tidal and wave energy capture ocean movements
+
+Energy storage, particularly lithium-ion batteries and emerging solid-state batteries, is crucial for handling the intermittency of renewable sources. Smart grids and demand response systems help balance supply and demand.
